@@ -1,0 +1,88 @@
+class Node {
+    Node next;
+    int data;
+}
+
+class Linked {
+
+     //it will delete middle node in linked list
+
+    public Node deleteMiddleNode(Node node) {
+        //Checking if the there are nodes existing.
+        if(node == null || node.next == null) {
+            return null;
+        }
+        // Initialize fast and slow pointers
+        // to reach the middle of the linked list.
+        // and finding the previous of the middle.
+        Node slow, fast, prev;
+
+        slow = fast = prev = node;
+        // to store the previous of the slow pointer.
+        while(fast != null && fast.next != null) {
+            prev = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        // deletion of the middle node.
+        prev.next = slow.next;
+        return node;
+    }
+
+    //getNewNode() method to generate a new node
+
+    public Node getNewNode(int key) {
+        Node a = new Node();
+        a.next = null;
+        a.data = key;
+        return a;
+    }
+
+    //insert method is used to insert the element in Linked List
+
+    public Node insert(int key, Node node) {
+
+        if (node == null)
+            return getNewNode(key);
+        else
+            node.next = insert(key, node.next);
+
+        return node;
+    }
+
+    /*
+     * It'll print the complete linked list
+     */
+    public void printList(Node node) {
+        if (node == null) {
+            return;
+        }
+
+        System.out.print(node.data + " ");
+        printList(node.next);
+    }
+}
+
+public class RemoveMiddle {
+
+    public static void main(String[] args) {
+
+        Node head = null;
+        Linked a = new Linked();
+
+        head = a.insert(5, head);
+        head = a.insert(3, head);
+        head = a.insert(2, head);
+        head = a.insert(1, head);
+        head = a.insert(6, head);
+        head = a.insert(7, head);
+        head = a.insert(10, head);
+
+        a.printList(head);
+        System.out.println();
+
+        a.deleteMiddleNode(head);
+
+        a.printList(head);
+    }
+}
