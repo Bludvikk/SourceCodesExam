@@ -1,0 +1,174 @@
+public class Node {
+    Node next;
+    int data;
+
+    public Node(int d){
+        data = d;
+        next = null;
+    }
+}
+class LinkedList {
+    int size;
+    Node sorted;
+    public int size() {
+        return size;
+    }
+    public boolean isEmpty() {
+        return (size == 0);
+    }
+    Node head;
+    public void add(int data) {
+        if (head == null) {
+            head = new Node(data);
+            return;
+        }
+
+        Node current = head;
+        while (current.next != null) {
+            current = current.next;
+        }
+        current.next = new Node(data);
+    }
+    public void addToFirst(int data) {
+        Node newHead = new Node(data);
+        newHead.next = head;
+        head = newHead;
+    }
+    public void addToLast(int data) {
+        Node newNode = new Node(data);
+        if(head == null) {
+            head = new Node(data);
+            return;
+        }
+        newNode.next = null;
+        Node last = head;
+        while(last.next != null) {
+            last = last.next;
+        }
+        last.next = newNode;
+        return;
+    }
+    public void deleteWithValue(int data) {
+        if(head == null) return;
+         if(head.data == data) {
+             head = head.next;
+             return;
+         }
+        Node current = head;
+        while(current.next != null) {
+            if(current.next.data == data) {
+                current.next = current.next.next;
+                return;
+            }
+            current = current.next;
+        }
+    }
+    public static LinkedList deleteAtPosition(LinkedList list, int index){
+        Node currentNode = list.head, prev = null;
+
+        if(index == 0 && currentNode != null) {
+            list.head = currentNode.next;
+            return list;
+        }
+        int counter = 0;
+
+        while(currentNode != null) {
+            if(counter == index) {
+
+                prev.next = currentNode.next;
+                break;
+            }
+            else {
+                prev = currentNode;
+                currentNode = currentNode.next;
+                counter++;
+            }
+        }
+        if(currentNode == null) {
+            System.out.println(index + " Position of the element not found");
+        }
+        return list;
+
+    }
+    public void deleteLastNode() {
+        Node toDelete, secondLastNode;
+
+        if(head == null) {
+            System.out.println("empty");
+        } else {
+            toDelete = head;
+            secondLastNode = head;
+            while(toDelete.next != null) {
+                secondLastNode = toDelete;
+                toDelete = toDelete.next;
+            }
+            if(toDelete == head) {
+                head = null;
+            } else {
+                secondLastNode.next = null;
+            }
+        }
+    }
+    public void deleteFirstNode() {
+        Node toDelete;
+        if(head == null) {
+            System.out.println("Empty");
+        } else {
+            toDelete = head;
+            head = head.next;
+        }
+    }
+    public static void show(LinkedList list) {
+        Node currentNode = list.head;
+
+        System.out.print("\n");
+        while(currentNode != null) {
+            System.out.print(currentNode.data + " ");
+
+            currentNode = currentNode.next;
+        }
+    }
+    public void removeDuplicates() {
+
+        // Adding reference to the head node
+        Node current = head;
+
+        // traversing until the last node
+        while (current != null) {
+            Node tempo = current;
+            // comparing the current node to the other node and
+            // deleting if it matches the current node
+
+            while(tempo != null && tempo.data == current.data) {
+                tempo = tempo.next;
+            }
+            current.next = tempo;
+            current = current.next;
+        }
+    }
+    public Node deleteMiddle(Node node) {
+        if(node == null || node.next == null) {
+            return null;
+        }
+        Node slow, fast, prev;
+
+        slow = fast = prev = node;
+
+        while(fast != null && fast.next != null) {
+            prev = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        prev.next = slow.next;
+        return node;
+    }
+    public static void main(String[] args) {
+        LinkedList d = new LinkedList();
+        d.addToFirst(11);
+        d.addToFirst(11);
+        d.addToLast(33);
+        d.addToLast(44);
+        d.addToFirst(10);
+        d.removeDuplicates();
+        show(d);
+    }
